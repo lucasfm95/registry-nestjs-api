@@ -3,17 +3,28 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
   Put,
+  Response,
 } from '@nestjs/common';
+import { CustomerService } from './customer.service';
 
 @Controller('customer')
 export class CustomerController {
+  constructor(private readonly customerService: CustomerService) {}
+
   @Get()
-  getAll(): string {
-    return 'getall';
+  getAll() {
+    const result = this.customerService.findAll();
+
+    if (!result || result.length == 0) {
+      throw new HttpException('bad', HttpStatus.NO_CONTENT);
+    }
+    return result;
   }
 
   @Get(':documentNumber')

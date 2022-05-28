@@ -9,9 +9,11 @@ import {
   Patch,
   Post,
   Put,
-  Response,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
+import { CustomerPatchModel } from './models/requests/customer-patch.model';
+import { CustomerPostModel } from './models/requests/customer-post.model';
+import { CustomerPutModel } from './models/requests/customer-put.model';
 
 @Controller('customer')
 export class CustomerController {
@@ -22,7 +24,7 @@ export class CustomerController {
     const result = this.customerService.findAll();
 
     if (!result || result.length == 0) {
-      throw new HttpException('bad', HttpStatus.NO_CONTENT);
+      throw new HttpException('', HttpStatus.NO_CONTENT);
     }
     return result;
   }
@@ -33,18 +35,24 @@ export class CustomerController {
   }
 
   @Post()
-  post(@Body() body: object) {
-    return body;
+  post(@Body() customer: CustomerPostModel) {
+    return customer;
   }
 
   @Put(':documentNumber')
-  put(@Param('documentNumber') documentNumber: string, @Body() body: object) {
-    return body;
+  put(
+    @Param('documentNumber') documentNumber: string,
+    @Body() customer: CustomerPutModel,
+  ) {
+    return customer;
   }
 
   @Patch(':documentNumber')
-  patch(@Param('documentNumber') documentNumber: string, @Body() body: object) {
-    return body;
+  patch(
+    @Param('documentNumber') documentNumber: string,
+    @Body() customer: CustomerPatchModel,
+  ) {
+    return customer;
   }
 
   @Delete(':documentNumber')

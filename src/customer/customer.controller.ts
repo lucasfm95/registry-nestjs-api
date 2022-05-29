@@ -17,11 +17,11 @@ import { CustomerPutModel } from './models/requests/customer-put.model';
 
 @Controller('customer')
 export class CustomerController {
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(private readonly customerService: CustomerService) { }
 
   @Get()
   getAll() {
-    const result = this.customerService.findAll();
+    const result = this.customerService.getAll();
 
     if (!result || result.length == 0) {
       throw new HttpException('', HttpStatus.NO_CONTENT);
@@ -30,7 +30,7 @@ export class CustomerController {
   }
 
   @Get(':documentNumber')
-  getByDocumentNumber(@Param('documentNumber') documentNumber: string): string {
+  getByDocumentNumber(@Param('documentNumber') documentNumber: string) {
     return documentNumber;
   }
 

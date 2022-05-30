@@ -18,7 +18,7 @@ export class CustomerPostModel {
   })
   @IsDefined()
   @IsString()
-  documentNumber: string;
+  public documentNumber: string;
   @MinLength(3, {
     message: (args: ValidationArguments) =>
       `The ${args.property} field must be minimum ${args.constraints[0]}  caracters long`,
@@ -29,8 +29,8 @@ export class CustomerPostModel {
   })
   @IsDefined()
   @IsString()
-  name: string;
+  public name: string;
   @IsDefined()
   @IsBoolean()
-  enabled: boolean;
+  public enabled: boolean;
 }

@@ -20,8 +20,8 @@ export class CustomerController {
   constructor(private readonly customerService: CustomerService) { }
 
   @Get()
-  getAll() {
-    const result = this.customerService.getAll();
+  async getAll() {
+    const result = await this.customerService.getAll();
 
     if (!result || result.length == 0) {
       throw new HttpException('', HttpStatus.NO_CONTENT);
@@ -35,8 +35,8 @@ export class CustomerController {
   }
 
   @Post()
-  post(@Body() customer: CustomerPostModel) {
-    return customer;
+  async post(@Body() customer: CustomerPostModel) {
+    return await this.customerService.add(customer);
   }
 
   @Put(':documentNumber')

@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put} from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CustomerPatchModel } from './models/requests/customer-patch.model';
 import { CustomerPostModel } from './models/requests/customer-post.model';
@@ -21,17 +10,16 @@ export class CustomerController {
 
   @Get()
   async getAll() {
-    const result = await this.customerService.getAll();
-
-    if (!result || result.length == 0) {
-      throw new HttpException('', HttpStatus.NO_CONTENT);
-    }
-    return result;
+    return await this.customerService.getAll();
   }
 
   @Get(':documentNumber')
-  getByDocumentNumber(@Param('documentNumber') documentNumber: string) {
-    return documentNumber;
+  async getByDocumentNumber(@Param('documentNumber') documentNumber: string) {
+    const result = await this.customerService.getByDocumentNumber(documentNumber);
+    if (!result) {
+      throw new HttpException('', HttpStatus.NO_CONTENT);
+    }
+    return result;
   }
 
   @Post()

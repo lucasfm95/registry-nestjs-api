@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CustomerRepository } from 'src/repository/customer.repository';
-import { v4 as uuid } from 'uuid';
 import CustomerData from './models/data/customer.data';
 import { CustomerPostModel } from './models/requests/customer-post.model';
 
@@ -18,28 +17,16 @@ export class CustomerService {
     return await this.customerRepository.findAll();
   }
 
-  getByDocumentNumber(documentNumber: string): object {
+  async getByDocumentNumber(documentNumber: string): Promise<CustomerData> {
     this.logger.log(`Get by document number ${documentNumber}`);
 
-    return this.customers.find(
-      (customer) => customer.documentNumber === documentNumber,
-    );
+    return await this.customerRepository.findByDocumentNumber(documentNumber);
   }
 
   async add(customerPostModel: CustomerPostModel): Promise<CustomerData> {
     this.logger.log(`add ${JSON.stringify(customerPostModel)}`);
 
     return await this.customerRepository.create(customerPostModel);
-
-    /*const customer: CustomerData = {
-      ...customerPostModel,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    this.customers.push(customer);
-
-    return customer;*/
   }
 
   replace() {}

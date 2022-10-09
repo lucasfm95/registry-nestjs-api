@@ -21,4 +21,8 @@ export class CustomerRepository {
   async findAll(): Promise<CustomerData[]> {
     return this.customerModel.find().exec();
   }
+
+  async findByDocumentNumber(documentNumber: string): Promise<CustomerData> {
+    return this.customerModel.findOne({ documentNumber: documentNumber }).exec();
+  }
 }

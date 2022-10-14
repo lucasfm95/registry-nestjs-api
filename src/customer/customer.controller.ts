@@ -23,8 +23,12 @@ export class CustomerController {
   }
 
   @Post()
-  async post(@Body() customer: CustomerPostModel) {
-    return await this.customerService.add(customer);
+  async post(@Body() newCustomer: CustomerPostModel) {
+    if(await this.customerService.getByDocumentNumber(newCustomer.documentNumber)) {
+      throw new HttpException('value duplicated', HttpStatus.BAD_REQUEST);
+    } else {
+      return await this.customerService.add(newCustomer);
+    }
   }
 
   @Put(':documentNumber')
